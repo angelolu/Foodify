@@ -24,7 +24,9 @@ import java.util.Map;
 
 public class RecognitionActivity extends AppCompatActivity implements CameraFragment.OnPictureCaptureListener {
 
+    static Fragment myResultFragment;
     RelativeLayout vAnalyzing;
+    ResultToFragment resultToFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         setSupportActionBar(toolbar);
 
         vAnalyzing = findViewById(R.id.vAnalyzing);
+        myResultFragment = new ResultFragment();
+        resultToFragment = (ResultToFragment) myResultFragment;
         //vAnalyzing.setVisibility(View.VISIBLE);
         // When the activity is first started, determine whether to show the camera fragment or the text entry/ingredients search fragment
         // look at the intent launching this activity
@@ -50,9 +54,8 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
     @Override
     public void OnPictureCapture(byte[] photo) {
         runOnUiThread(new Runnable() {
-            @Override
             public void run() {
-                toggleAnalyzingUI(true);
+                proceedToResults();
             }
         });
         // The camera fragment will call this function when a picture is taken
@@ -60,14 +63,13 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         // Contact class to get composition of photo
         FoodRecognizer myFood = new FoodRecognizer();
         List<WeightedIngredient> myIngredients = myFood.recognize(photo);
-        Log.e("Output", "Most likely to be " + myIngredients.get(0).name());
-        finish();
+
         // Once composition of photo is returned call findResults() with the list
-        //findResults(myIngredients);
+        setResult(myIngredients);
     }
 
     public void interpretList(List<String> enteredIngredients) {
-        toggleAnalyzingUI(true);
+        proceedToResults();
         // The text entry/search fragment will call this function when the user finishes entering an ingredients list
         List<WeightedIngredient> myIngredients = null;
         // Create a new List<WeightedIngredient> with all ingredients having a weight of 1
@@ -75,14 +77,24 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         findResults(myIngredients);
     }
 
-    private void toggleAnalyzingUI(boolean analyzing) {
-        if (analyzing) {
-            vAnalyzing.setVisibility(View.VISIBLE);
-        } else {
-            vAnalyzing.setVisibility(View.GONE);
+    private void proceedToResults() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.vMainFragment, myResultFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void setResult(List<WeightedIngredient> myIngredients) {
+        String result = "";
+        for (WeightedIngredient element : myIngredients) {
+            result = result + Math.round(element.weight() * 1000) / 10 + "% " + element.name() + "\n";
         }
-        // Update UI with "ANALYZING" state
-        // if analyzing = true then hide banner
+        final String print = result;
+        runOnUiThread(new Runnable() {
+            public void run() {
+                resultToFragment.sendData(print);
+            }
+        });
     }
 
     public void findResults(List<WeightedIngredient> myIngredients) {
@@ -139,4 +151,9 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
             //result.add(pairer.getBeverage(drinks.get(i).getKey()));
         }
     }
+
+    public interface ResultToFragment {
+        void sendData(String data);
+    }
+
 }

@@ -3,9 +3,13 @@ package com.foodify.foodify;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -13,7 +17,7 @@ import android.view.ViewGroup;
  * Use the {@link ResultFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ResultFragment extends Fragment {
+public class ResultFragment extends Fragment implements RecognitionActivity.ResultToFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -22,7 +26,7 @@ public class ResultFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    View myView;
 
     public ResultFragment() {
         // Required empty public constructor
@@ -55,11 +59,31 @@ public class ResultFragment extends Fragment {
         }
     }
 
+    CardView cvResults;
+    TextView tvResults, tvAnalysis;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        myView = inflater.inflate(R.layout.fragment_result, container, false);
+        cvResults = myView.findViewById(R.id.cvResults);
+        tvResults = myView.findViewById(R.id.tvResult);
+        tvAnalysis = myView.findViewById(R.id.tvAnalyzing);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_result, container, false);
+        return myView;
     }
+
+    public void setResult(String result) {
+        Log.e("Something", (myView == null) + "");
+        tvAnalysis.setVisibility(View.GONE);
+        cvResults.setVisibility(View.VISIBLE);
+        tvResults.setText(result);
+    }
+
+    @Override
+    public void sendData(String data) {
+        if (data != null)
+            setResult(data);
+    }
+
 
 }
