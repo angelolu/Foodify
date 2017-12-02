@@ -3,6 +3,7 @@ package com.foodify.foodify;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,21 +69,27 @@ public class ResultFragment extends Fragment implements RecognitionActivity.Resu
         cvResults = myView.findViewById(R.id.cvResults);
         tvResults = myView.findViewById(R.id.tvResult);
         tvAnalysis = myView.findViewById(R.id.tvAnalyzing);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Results");
         // Inflate the layout for this fragment
         return myView;
     }
 
-    public void setResult(String result) {
-        Log.e("Something", (myView == null) + "");
-        tvAnalysis.setVisibility(View.GONE);
-        cvResults.setVisibility(View.VISIBLE);
-        tvResults.setText(result);
-    }
 
     @Override
-    public void sendData(String data) {
-        if (data != null)
-            setResult(data);
+    public void sendRecognition(String data) {
+        if (data != null) {
+            Log.e("Something", (myView == null) + "");
+            tvAnalysis.setText("Determining pairings...");
+            cvResults.setVisibility(View.VISIBLE);
+            tvResults.setText(data);
+        }
+    }
+    @Override
+    public void sendPairing(String data) {
+        if (data != null) {
+            tvAnalysis.setVisibility(View.GONE);
+        }
     }
 
 

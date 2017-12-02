@@ -131,7 +131,7 @@ public class CameraFragment extends Fragment {
     @Override
     public void onPause() {
         cvCamera.stop();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         super.onPause();
     }
 

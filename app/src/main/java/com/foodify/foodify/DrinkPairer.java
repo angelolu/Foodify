@@ -41,6 +41,7 @@ public final class DrinkPairer {
             }
         }
         catch (JSONException e) {
+            e.printStackTrace();
             System.err.println(e.getStackTrace());
             throw new NullPointerException("Something failed while reading JSON.");
         }

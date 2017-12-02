@@ -24,8 +24,7 @@ import java.util.Map;
 
 public class RecognitionActivity extends AppCompatActivity implements CameraFragment.OnPictureCaptureListener {
 
-    static Fragment myResultFragment;
-    RelativeLayout vAnalyzing;
+    Fragment myResultFragment;
     ResultToFragment resultToFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,6 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        vAnalyzing = findViewById(R.id.vAnalyzing);
         myResultFragment = new ResultFragment();
         resultToFragment = (ResultToFragment) myResultFragment;
         //vAnalyzing.setVisibility(View.VISIBLE);
@@ -65,7 +63,8 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         List<WeightedIngredient> myIngredients = myFood.recognize(photo);
 
         // Once composition of photo is returned call findResults() with the list
-        setResult(myIngredients);
+        setRecognition(myIngredients);
+        findResults(myIngredients);
     }
 
     public void interpretList(List<String> enteredIngredients) {
@@ -84,15 +83,15 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         fragmentTransaction.commit();
     }
 
-    public void setResult(List<WeightedIngredient> myIngredients) {
+    public void setRecognition(List<WeightedIngredient> myIngredients) {
         String result = "";
         for (WeightedIngredient element : myIngredients) {
-            result = result + Math.round(element.weight() * 1000) / 10 + "% " + element.name() + "\n";
+            result = result + ((float) Math.round(element.weight() * 1000)) / 10.0 + "% " + element.name() + "\n";
         }
         final String print = result;
         runOnUiThread(new Runnable() {
             public void run() {
-                resultToFragment.sendData(print);
+                resultToFragment.sendRecognition(print);
             }
         });
     }
@@ -101,8 +100,8 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         // take myIngredients and feed them one by one to the matching class
         // somehow choose the best suggested pairing
         // Read the JSON Files
-        String foodJSONFile = "";
-        String drinkJSONFile = "";
+        String foodJSONFile = "food.json";
+        String drinkJSONFile = "drinks.json";
         /*BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(getAssets().open("food.json")));
@@ -153,7 +152,9 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
     }
 
     public interface ResultToFragment {
-        void sendData(String data);
+        void sendRecognition(String data);
+
+        void sendPairing(String data);
     }
 
 }
