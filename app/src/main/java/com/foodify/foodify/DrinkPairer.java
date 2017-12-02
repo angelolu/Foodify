@@ -1,8 +1,15 @@
 package com.foodify.foodify;
 
+import android.content.Context;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Iterator;
 
 /**
@@ -19,31 +26,51 @@ public final class DrinkPairer {
     private final JSONArray drinkStuff;
 
     // constructor for drinkPairer
-    public DrinkPairer(String foodJSONFile, String drinkJSONFile) throws NullPointerException{
+    public DrinkPairer(String foodJSONFile, String drinkJSONFile, Context c) throws NullPointerException {
+
+        // Read the JSON Files
+        String foodString = "";
+        String drinkString = "";
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(c.getAssets().open(foodJSONFile)));
+
+            String mLine;
+            while ((mLine = reader.readLine()) != null) {
+                foodString = foodString + mLine;
+            }
+            Log.e("Food.json", foodString);
+            reader = new BufferedReader(new InputStreamReader(c.getAssets().open(drinkJSONFile)));
+
+            while ((mLine = reader.readLine()) != null) {
+                drinkString = drinkString + mLine;
+            }
+            Log.e("Drinks.json", drinkString);
+
+        } catch (IOException e) {
+            //log the exception
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    //log the exception
+                }
+            }
+        }
+
         JSONArray tempFoodStuff;
         JSONArray tempDrinkStuff;
 
         try{
-            // makes sure JSON food file is of appropriate name
-            if(foodJSONFile != null && !foodJSONFile.isEmpty()){
-                tempFoodStuff = new JSONArray(foodJSONFile);
-            }
-            else{ // otherwise, goes to default
-                tempFoodStuff = new JSONArray(FOOD_JSON_FILE);
-            }
-
-            // makes sure JSON drink file is of appropriate name
-            if(drinkJSONFile != null && !drinkJSONFile.isEmpty()){
-                tempDrinkStuff = new JSONArray(drinkJSONFile);
-            }
-            else{ // otherwise, goes to default
-                tempDrinkStuff = new JSONArray(DRINK_JSON_FILE);
-            }
+            tempFoodStuff = new JSONArray(foodString);
+            tempDrinkStuff = new JSONArray(drinkString);
         }
         catch (JSONException e) {
             e.printStackTrace();
             System.err.println(e.getStackTrace());
-            throw new NullPointerException("Something failed while reading JSON.");
+            throw new NullPointerException("Something failed while parsing JSON.");
         }
 
         this.foodStuff = tempFoodStuff;

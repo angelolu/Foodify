@@ -131,7 +131,7 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
             }
         }*/
 
-        DrinkPairer pairer = new DrinkPairer(foodJSONFile, drinkJSONFile);
+        DrinkPairer pairer = new DrinkPairer(foodJSONFile, drinkJSONFile, this);
         HashMap<String, Float> counter = new HashMap<>();
         for (WeightedIngredient ingredient : myIngredients) {
             for (Beverage drink : pairer.getDrink(ingredient.name())) {
