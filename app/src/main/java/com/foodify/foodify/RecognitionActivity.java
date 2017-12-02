@@ -124,6 +124,9 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         HashMap<String, Float> counter = new HashMap<>();
         for (WeightedIngredient ingredient : myIngredients) {
             for (Beverage drink : pairer.getDrink(ingredient.name())) {
+                if (drink == null) {
+                    break;
+                }
                 String name = drink.getName();
                 float count = counter.get(name) != null ? counter.get(name) : 0;
                 counter.put(name, count + 1 * ingredient.weight());
