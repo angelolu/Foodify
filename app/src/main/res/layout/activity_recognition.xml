@@ -20,9 +20,25 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
     <FrameLayout
+        android:id="@+id/vMainFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/vAnalyzing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/vMainFragment" />
+        android:background="@color/colorPrimaryFaded"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Analyzing..."
+            android:textColor="@color/colorWhite" />
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

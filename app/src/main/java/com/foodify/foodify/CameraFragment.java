@@ -1,21 +1,31 @@
 package com.foodify.foodify;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.wonderkiln.camerakit.CameraKitEventCallback;
+import com.wonderkiln.camerakit.CameraKitImage;
 import com.wonderkiln.camerakit.CameraView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
+import clarifai2.dto.input.ClarifaiInput;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CameraFragment.OnFragmentInteractionListener} interface
+ * {@link CameraFragment.OnPictureCaptureListener} interface
  * to handle interaction events.
  * Use the {@link CameraFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -30,9 +40,11 @@ public class CameraFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnPictureCaptureListener mListener;
 
     CameraView cvCamera;
+    Button bCapture;
+
 
     public CameraFragment() {
         // Required empty public constructor
@@ -71,22 +83,33 @@ public class CameraFragment extends Fragment {
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_camera, container, false);
         cvCamera = myView.findViewById(R.id.cvCamera);
+
+        bCapture = myView.findViewById(R.id.bCapture);
+        bCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mListener != null) {
+                    cvCamera.captureImage(new CameraKitEventCallback<CameraKitImage>() {
+                        @Override
+                        public void callback(CameraKitImage cameraKitImage) {
+                            byte[] bitmapdata = cameraKitImage.getJpeg();
+                            Log.e("PICTURE", bitmapdata + "");
+                            ((RecognitionActivity) getActivity()).OnPictureCapture(bitmapdata);
+                            cvCamera.stop();
+                        }
+                    });
+                }
+            }
+        });
         return myView;
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnPictureCaptureListener) {
+            mListener = (OnPictureCaptureListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -123,8 +146,8 @@ public class CameraFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnPictureCaptureListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void OnPictureCapture(byte[] photo);
     }
 }

@@ -7,6 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,8 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecognitionActivity extends AppCompatActivity implements CameraFragment.OnFragmentInteractionListener {
+public class RecognitionActivity extends AppCompatActivity implements CameraFragment.OnPictureCaptureListener {
 
+    RelativeLayout vAnalyzing;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +32,8 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        vAnalyzing = findViewById(R.id.vAnalyzing);
+        //vAnalyzing.setVisibility(View.VISIBLE);
         // When the activity is first started, determine whether to show the camera fragment or the text entry/ingredients search fragment
         // look at the intent launching this activity
 
@@ -40,14 +47,23 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         fragmentTransaction.commit();
     }
 
-    public void interpretPhoto(File photo) {
-        toggleAnalyzingUI(true);
+    @Override
+    public void OnPictureCapture(byte[] photo) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                toggleAnalyzingUI(true);
+            }
+        });
         // The camera fragment will call this function when a picture is taken
         // Update UI with "ANALYZING" state
         // Contact class to get composition of photo
-        List<WeightedIngredient> myIngredients = null;
+        FoodRecognizer myFood = new FoodRecognizer();
+        List<WeightedIngredient> myIngredients = myFood.recognize(photo);
+        Log.e("Output", "Most likely to be " + myIngredients.get(0).name());
+        finish();
         // Once composition of photo is returned call findResults() with the list
-        findResults(myIngredients);
+        //findResults(myIngredients);
     }
 
     public void interpretList(List<String> enteredIngredients) {
@@ -60,6 +76,11 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
     }
 
     private void toggleAnalyzingUI(boolean analyzing) {
+        if (analyzing) {
+            vAnalyzing.setVisibility(View.VISIBLE);
+        } else {
+            vAnalyzing.setVisibility(View.GONE);
+        }
         // Update UI with "ANALYZING" state
         // if analyzing = true then hide banner
     }
@@ -70,21 +91,25 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         // Read the JSON Files
         String foodJSONFile = "";
         String drinkJSONFile = "";
-        BufferedReader reader = null;
+        /*BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(getAssets().open("foodFile.json")));
+            reader = new BufferedReader(new InputStreamReader(getAssets().open("food.json")));
 
             String mLine;
             while ((mLine = reader.readLine()) != null) {
                 foodJSONFile = foodJSONFile + mLine;
             }
-            reader = new BufferedReader(new InputStreamReader(getAssets().open("drinkFile.json")));
+            Log.e("Food.json", foodJSONFile);
+            reader = new BufferedReader(new InputStreamReader(getAssets().open("drinks.json")));
 
             while ((mLine = reader.readLine()) != null) {
                 drinkJSONFile = drinkJSONFile + mLine;
             }
+            Log.e("Drinks.json", drinkJSONFile);
+
         } catch (IOException e) {
             //log the exception
+            e.printStackTrace();
         } finally {
             if (reader != null) {
                 try {
@@ -93,7 +118,7 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
                     //log the exception
                 }
             }
-        }
+        }*/
 
         DrinkPairer pairer = new DrinkPairer(foodJSONFile, drinkJSONFile);
         HashMap<String, Float> counter = new HashMap<>();
@@ -110,10 +135,5 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         for (int i = 0; i < 3; i++) {
             //result.add(pairer.getBeverage(drinks.get(i).getKey()));
         }
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }

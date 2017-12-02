@@ -20,7 +20,7 @@ public class FoodRecognizer {
         this.client = new ClarifaiBuilder("c9d4e612a5a2455fbfe92e201335d352").buildSync();
     }
 
-    private List<WeightedIngredient> recognize(File imageFile) {
+    public List<WeightedIngredient> recognize(byte[] imageFile) {
         List<WeightedIngredient> resultList = new ArrayList<WeightedIngredient>();
         for (ClarifaiOutput<Concept> output : client.getDefaultModels().foodModel().predict()
                 .withInputs(ClarifaiInput.forImage(imageFile))
