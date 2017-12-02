@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Foodify.iml" filepath="$PROJECT_DIR$/Foodify.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\astra\Workspace\Foodify\app\app.iml" filepath="C:\Users\astra\Workspace\Foodify\app\app.iml" />
     </modules>
   </component>
 </project>
