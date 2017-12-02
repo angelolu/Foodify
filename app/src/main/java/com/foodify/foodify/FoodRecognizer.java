@@ -16,36 +16,19 @@ public class FoodRecognizer {
 
     private ClarifaiClient client;
 
-    public class FoodRecognizerResult {
-        private String name;
-        private float weight;
-
-        public FoodRecognizerResult(String name, float weight) {
-            this.name = name;
-            this.weight = weight;
-        }
-
-        public String name() {
-            return name;
-        }
-
-        public float weight() {
-            return weight;
-        }
-    }
 
     public FoodRecognizer() {
         this.client = new ClarifaiBuilder("c9d4e612a5a2455fbfe92e201335d352").buildSync();
     }
 
-    private List<FoodRecognizerResult> recognize(File imageFile) {
-        List<FoodRecognizerResult> resultList = new ArrayList<FoodRecognizerResult>();
+    private List<WeightedIngredient> recognize(File imageFile) {
+        List<WeightedIngredient> resultList = new ArrayList<WeightedIngredient>();
         for (ClarifaiOutput<Concept> output : client.getDefaultModels().foodModel().predict()
                 .withInputs(ClarifaiInput.forImage(imageFile))
                 .executeSync()
                 .get()) {
             for (Concept result : output.data()) {
-                resultList.add(new FoodRecognizerResult(result.name(), result.value()));
+                resultList.add(new WeightedIngredient(result.name(), result.value()));
             }
         }
         return resultList;

@@ -8,10 +8,19 @@
 
 
     <Button
-        android:id="@+id/bCapture"
+        android:id="@+id/bCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Capture Photo"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="35dp" />
+
+    <Button
+        android:id="@+id/bText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter ingredients list"
+        android:layout_below="@id/bCamera"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="35dp" />
 
@@ -19,5 +28,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/ivPreview"
-        android:layout_below="@id/bCapture" />
+        android:layout_below="@id/bText" />
 </RelativeLayout>

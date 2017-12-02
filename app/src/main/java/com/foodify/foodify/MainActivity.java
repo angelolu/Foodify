@@ -19,6 +19,10 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    static final int TYPE_CAMERA = 1;
+    static final int TYPE_TEXTINPUT = 2;
+
+
     ImageView ivPreview;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     String mCurrentPhotoPath;
@@ -31,11 +35,25 @@ public class MainActivity extends AppCompatActivity {
 
         // Stuff for testing the camera
         ivPreview = findViewById(R.id.ivPreview);
+
+        // Buttons to start the next activity
         Button bCapture = findViewById(R.id.bCapture);
         bCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dispatchTakePictureIntent();
+                Intent nextActivity = new Intent(MainActivity.this, RecognitionActivity.class);
+                nextActivity.putExtra("type", TYPE_CAMERA);
+                startActivity(nextActivity);
+            }
+        });
+
+        Button bText = findViewById(R.id.bText);
+        bText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(MainActivity.this, RecognitionActivity.class);
+                nextActivity.putExtra("type", TYPE_TEXTINPUT);
+                startActivity(nextActivity);
             }
         });
     }
