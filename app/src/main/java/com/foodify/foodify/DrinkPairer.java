@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Iterator;
 
 /**
  * Created by Joey Sun on 2017-12-02.
@@ -40,6 +39,7 @@ public final class DrinkPairer {
         String drinkString = "";
         BufferedReader reader = null;
         try {
+            // opens a reader to read the food JSON file
             reader = new BufferedReader(new InputStreamReader(c.getAssets().open(foodJSONFile)));
 
             String mLine;
@@ -119,7 +119,7 @@ public final class DrinkPairer {
         return null;
     }
 
-    // for multiple drink ID
+    // gets beverage info for multiple drink ID
     private Beverage [] drinkInfoGivenDrinkID(String [] drinkID) {
         Beverage[] beverages = new Beverage[drinkID.length];
 
@@ -130,16 +130,15 @@ public final class DrinkPairer {
         return beverages;
     }
 
-    /* for one drink name */
+    // gets beverage info for one drink ID
     private Beverage drinkInfoGivenDrinkID(String drinkName){
         try {
-            String drinkInfo;
-
             // iterates over the array of JSON objects, searching for a drink
             for (int i = 0; i < drinkStuff.length(); i++) {
                 if( drinkName.equals(drinkStuff.getJSONObject(i).get("drink")) ) {
-                    drinkInfo = (String) drinkStuff.getJSONObject(i).get("drinklink");
-                    return new Beverage(drinkName, drinkInfo);
+                    String drinkInfo = (String) drinkStuff.getJSONObject(i).get("drinklink");
+                    String drink = (String) drinkStuff.getJSONObject(i).get("description");
+                    return new Beverage(drink, drinkInfo);
                 }
             }
         }
@@ -176,7 +175,7 @@ public final class DrinkPairer {
         catch (JSONException e){
             System.err.println(e.getStackTrace().toString());
         }
-        // returns null otherwise
-        return null;
+        // returns beverage with no image otherwise
+        return new Beverage(drinkName, "");
     }
 }
