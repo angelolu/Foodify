@@ -39,9 +39,15 @@ public final class DrinkPairer {
     // gets drink info for a given food name
     public Beverage [] getDrink(String foodName){
         String drinkID = drinkIDGivenFood(foodName);
-        Beverage drinkInfo = drinkInfoGivenDrinkID(drinkID);
 
-        return new Beverage [] {drinkInfo};
+        if (drinkID == null) {
+            return null;
+        }
+        else {
+            Beverage drinkInfo = drinkInfoGivenDrinkID(drinkID);
+            return new Beverage[]{drinkInfo};
+        }
+        
     }
 
     // gets drink ID given food object
