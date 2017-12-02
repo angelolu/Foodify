@@ -37,11 +37,11 @@ public final class DrinkPairer {
     }
 
     // gets drink info for a given food name
-    public Beverage getDrink(String foodName){
+    public Beverage [] getDrink(String foodName){
         String drinkID = drinkIDGivenFood(foodName);
         Beverage drinkInfo = drinkInfoGivenDrinkID(drinkID);
 
-        return drinkInfo;
+        return new Beverage [] {drinkInfo};
     }
 
     // gets drink ID given food object
@@ -49,8 +49,7 @@ public final class DrinkPairer {
         try {
             JSONObject drinkPairing;
 
-            // iterates over the array of JSOn objects because someone didn't
-            // consider using multiple attributes
+            // iterates over the array of JSON objects, searching for a food
             for (int i = 0; i < foodStuff.length(); i++) {
                 if( foodName.equals(foodStuff.getJSONObject(i).get("food")) ) {
                     drinkPairing = foodStuff.getJSONObject(i);
@@ -61,6 +60,7 @@ public final class DrinkPairer {
         catch (JSONException e){
             System.err.println(e.getStackTrace().toString());
         }
+        // returns null otherwise
         return null;
     }
 
@@ -80,8 +80,7 @@ public final class DrinkPairer {
         try {
             String drinkInfo;
 
-            // iterates over the array of JSOn objects because someone didn't
-            // consider using multiple attributes
+            // iterates over the array of JSON objects, searching for a drink
             for (int i = 0; i < drinkStuff.length(); i++) {
                 if( drinkName.equals(foodStuff.getJSONObject(i).get("drink")) ) {
                     drinkInfo = (String) foodStuff.getJSONObject(i).get("drinklink");
@@ -92,14 +91,14 @@ public final class DrinkPairer {
         catch (JSONException e){
             System.err.println(e.getStackTrace());
         }
-
+        // returns null otherwise
         return null;
     }
 
     /**
      * Outputs a drink object given a drink name.
      * Iterates over all objects in JSON, because I do
-     * not know of more effective method of doing this.
+     * not know of a more effective method of doing this.
      */
     public Beverage drinkInfoGivenDrinkName(String drinkName){
         try {
