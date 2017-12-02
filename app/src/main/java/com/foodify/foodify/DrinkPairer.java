@@ -83,7 +83,7 @@ public final class DrinkPairer {
 
         // returns null if the food item does not exist
         if (drinkID == null) {
-            return null;
+            return new Beverage [] {null};
         }
         else {
             Beverage drinkInfo = drinkInfoGivenDrinkID(drinkID);
