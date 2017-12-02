@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         ivPreview = findViewById(R.id.ivPreview);
 
         // Buttons to start the next activity
-        Button bCapture = findViewById(R.id.bCamera);
+        ImageButton bCapture = findViewById(R.id.bImage);
         bCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button bText = findViewById(R.id.bText);
+        ImageButton bText = findViewById(R.id.bList);
         bText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

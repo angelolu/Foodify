@@ -6,27 +6,47 @@
     android:layout_height="match_parent"
     tools:context="com.foodify.foodify.MainActivity">
 
-
-    <Button
-        android:id="@+id/bCamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Capture Photo"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="35dp" />
-
-    <Button
-        android:id="@+id/bText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter ingredients list"
-        android:layout_below="@id/bCamera"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="35dp" />
-
     <ImageView
+        android:id="@+id/ivPreview"
+        android:contentDescription="preview for image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ivPreview"
-        android:layout_below="@id/bText" />
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/bList"
+        android:layout_marginTop="200dp" />
+
+    <ImageButton
+        android:id="@+id/bImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/bList"
+        android:layout_marginBottom="300dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorWhite"
+        android:contentDescription="Take new photo to inspect"
+        android:paddingBottom="0dp"
+        android:scaleType="fitCenter"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:visibility="visible"
+        app:srcCompat="@drawable/new_photo" />
+
+    <ImageButton
+        android:id="@+id/bList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="200dp"
+        android:background="@color/colorWhite"
+        android:contentDescription="manually add food item"
+        android:cropToPadding="false"
+        android:padding="60dp"
+        android:scaleType="fitCenter"
+        android:scaleX="1"
+        android:scaleY="1"
+        app:srcCompat="@drawable/new_manual_list" />
 </RelativeLayout>
