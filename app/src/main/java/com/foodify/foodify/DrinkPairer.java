@@ -20,13 +20,20 @@ import java.util.Iterator;
 public final class DrinkPairer {
     static final String FOOD_JSON_FILE = "food.json";
     static final String DRINK_JSON_FILE = "drinks.json";
-    static final String PAIRING_NAME = "Pairings";
 
     private final JSONArray foodStuff;
     private final JSONArray drinkStuff;
 
     // constructor for drinkPairer
     public DrinkPairer(String foodJSONFile, String drinkJSONFile, Context c) throws NullPointerException {
+
+        // Uses JSON file name passed to us if not empty/null
+        // else uses default JSON file names
+        String foodFile = (foodJSONFile != null && !foodJSONFile.isEmpty())
+                ? foodJSONFile : FOOD_JSON_FILE;
+        String drinkFile = (drinkJSONFile != null && !drinkJSONFile.isEmpty())
+                ? drinkJSONFile : DRINK_JSON_FILE;
+
 
         // Read the JSON Files
         String foodString = "";
@@ -39,13 +46,13 @@ public final class DrinkPairer {
             while ((mLine = reader.readLine()) != null) {
                 foodString = foodString + mLine;
             }
-            Log.e("Food.json", foodString);
+            Log.e(foodFile, foodString);
             reader = new BufferedReader(new InputStreamReader(c.getAssets().open(drinkJSONFile)));
 
             while ((mLine = reader.readLine()) != null) {
                 drinkString = drinkString + mLine;
             }
-            Log.e("Drinks.json", drinkString);
+            Log.e(drinkFile, drinkString);
 
         } catch (IOException e) {
             //log the exception
@@ -130,8 +137,8 @@ public final class DrinkPairer {
 
             // iterates over the array of JSON objects, searching for a drink
             for (int i = 0; i < drinkStuff.length(); i++) {
-                if( drinkName.equals(foodStuff.getJSONObject(i).get("drink")) ) {
-                    drinkInfo = (String) foodStuff.getJSONObject(i).get("drinklink");
+                if( drinkName.equals(drinkStuff.getJSONObject(i).get("drink")) ) {
+                    drinkInfo = (String) drinkStuff.getJSONObject(i).get("drinklink");
                     return new Beverage(drinkName, drinkInfo);
                 }
             }
