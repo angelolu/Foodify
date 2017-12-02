@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     static final int TYPE_CAMERA = 1;
     static final int TYPE_TEXTINPUT = 2;
 
-
     ImageView ivPreview;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     String mCurrentPhotoPath;
@@ -58,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     // Stuff for taking a picture and storing it in the app's private directory
     // Most of it is sample code from Android developers :P
     private File createImageFile() throws IOException {
@@ -77,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         return image;
     }
 
+    /**
+     *     I think this handles camera taking the picture
+     */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -99,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *     I think this handles if an action is requested
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
