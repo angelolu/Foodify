@@ -1,14 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.foodify.foodify.CameraFragment"
-    tools:showIn="@layout/activity_recognition">
+    tools:context="com.foodify.foodify.CameraFragment">
 
-    <TextView
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/llTopbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/vert_margin"
+        android:paddingLeft="@dimen/horiz_margin"
+        android:paddingRight="@dimen/horiz_margin"
+        android:paddingTop="@dimen/vert_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Capture a Food Picture"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Take a good picture and we'll suggest good beverage pairings"
+            android:textColor="@color/colorWhite" />
+    </LinearLayout>
+
+    <com.wonderkiln.camerakit.CameraView
+        android:id="@+id/cvCamera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_below="@id/llTopbar"
+        android:adjustViewBounds="true" />
+
+    <LinearLayout
+        android:id="@+id/llBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/vert_margin"
+        android:paddingLeft="@dimen/horiz_margin"
+        android:paddingRight="@dimen/horiz_margin"
+        android:paddingTop="@dimen/vert_margin">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+
+            android:text="Capture" />
+    </LinearLayout>
+
 </RelativeLayout>

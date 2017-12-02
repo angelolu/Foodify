@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         ivPreview = findViewById(R.id.ivPreview);
 
         // Buttons to start the next activity
-        Button bCapture = findViewById(R.id.bCapture);
+        Button bCapture = findViewById(R.id.bCamera);
         bCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

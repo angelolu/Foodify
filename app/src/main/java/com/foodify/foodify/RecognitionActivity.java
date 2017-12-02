@@ -1,26 +1,24 @@
 package com.foodify.foodify;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.internal.ForegroundLinearLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecognitionActivity extends AppCompatActivity {
+public class RecognitionActivity extends AppCompatActivity implements CameraFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +31,12 @@ public class RecognitionActivity extends AppCompatActivity {
         // look at the intent launching this activity
 
         // Show the appropriate fragment
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment nextFragment;
         // for now, hardcode to camera fragment for testing
         nextFragment = new CameraFragment();
-        fragmentTransaction.add(R.id.vMainFragment, nextFragment, null);
+        fragmentTransaction.add(R.id.vMainFragment, nextFragment);
         fragmentTransaction.commit();
     }
 
@@ -69,6 +67,34 @@ public class RecognitionActivity extends AppCompatActivity {
     public void findResults(List<WeightedIngredient> myIngredients) {
         // take myIngredients and feed them one by one to the matching class
         // somehow choose the best suggested pairing
+        // Read the JSON Files
+        String foodJSONFile = "";
+        String drinkJSONFile = "";
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(getAssets().open("foodFile.json")));
+
+            String mLine;
+            while ((mLine = reader.readLine()) != null) {
+                foodJSONFile = foodJSONFile + mLine;
+            }
+            reader = new BufferedReader(new InputStreamReader(getAssets().open("drinkFile.json")));
+
+            while ((mLine = reader.readLine()) != null) {
+                drinkJSONFile = drinkJSONFile + mLine;
+            }
+        } catch (IOException e) {
+            //log the exception
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    //log the exception
+                }
+            }
+        }
+
         DrinkPairer pairer = new DrinkPairer(foodJSONFile, drinkJSONFile);
         HashMap<String, Float> counter = new HashMap<>();
         for (WeightedIngredient ingredient : myIngredients) {
@@ -82,8 +108,12 @@ public class RecognitionActivity extends AppCompatActivity {
         Collections.sort(drinks, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
         List<Beverage> result = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            result.add(pairer.getBeverage(drinks.get(i).getKey()));
+            //result.add(pairer.getBeverage(drinks.get(i).getKey()));
         }
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
