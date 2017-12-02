@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.design.internal.ForegroundLinearLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.app.Fragment;
@@ -12,7 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RecognitionActivity extends AppCompatActivity {
 
@@ -63,8 +69,21 @@ public class RecognitionActivity extends AppCompatActivity {
     public void findResults(List<WeightedIngredient> myIngredients) {
         // take myIngredients and feed them one by one to the matching class
         // somehow choose the best suggested pairing
-
-
+        DrinkPairer pairer = new DrinkPairer(foodJSONFile, drinkJSONFile);
+        HashMap<String, Float> counter = new HashMap<>();
+        for (WeightedIngredient ingredient : myIngredients) {
+            for (Beverage drink : pairer.getDrink(ingredient.name())) {
+                String name = drink.getName();
+                float count = counter.get(name) != null ? counter.get(name) : 0;
+                counter.put(name, count + 1 * ingredient.weight());
+            }
+        }
+        List<Map.Entry<String, Float>> drinks = new ArrayList<>(counter.entrySet());
+        Collections.sort(drinks, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
+        List<Beverage> result = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            result.add(pairer.getBeverage(drinks.get(i).getKey()));
+        }
     }
 
 }
