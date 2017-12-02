@@ -64,8 +64,8 @@ public class JSONchanger {
     }
 
     /**
-     * returns a JSONobject that has its key as the food name.
-     * @return JSONobject that has its key as the food name.
+     * returns a JSONobject that has the given food.
+     * @return JSONobject that has the given food.
      */
     private JSONObject getFood(String foodName){
         // checks to see if food exists
@@ -90,10 +90,10 @@ public class JSONchanger {
     }
 
     /**
-     * returns a JSONobject that has the given .
+     * returns a JSONobject that has the given drink.
      * @return JSONobject that has its key as the food name.
      */
-    private JSONObject getFood(String foodName){
+    private JSONObject getDrink(String drinkName){
         // checks to see if food exists
         try {
             JSONObject food = foodStuff.getJSONObject(foodName);

@@ -24,8 +24,21 @@ public final class DrinkPairer {
         JSONArray tempDrinkStuff;
 
         try{
-            tempFoodStuff = new JSONArray(foodJSONFile);
-            tempDrinkStuff = new JSONArray(drinkJSONFile);
+            // makes sure JSON food file is of appropriate name
+            if(foodJSONFile != null && !foodJSONFile.isEmpty()){
+                tempFoodStuff = new JSONArray(foodJSONFile);
+            }
+            else{ // otherwise, goes to default
+                tempFoodStuff = new JSONArray(FOOD_JSON_FILE);
+            }
+
+            // makes sure JSON drink file is of appropriate name
+            if(drinkJSONFile != null && !drinkJSONFile.isEmpty()){
+                tempDrinkStuff = new JSONArray(drinkJSONFile);
+            }
+            else{ // otherwise, goes to default
+                tempDrinkStuff = new JSONArray(DRINK_JSON_FILE);
+            }
         }
         catch (JSONException e) {
             System.err.println(e.getStackTrace());
@@ -40,6 +53,7 @@ public final class DrinkPairer {
     public Beverage [] getDrink(String foodName){
         String drinkID = drinkIDGivenFood(foodName);
 
+        // returns null if the food item does not exist
         if (drinkID == null) {
             return null;
         }
@@ -47,7 +61,7 @@ public final class DrinkPairer {
             Beverage drinkInfo = drinkInfoGivenDrinkID(drinkID);
             return new Beverage[]{drinkInfo};
         }
-        
+
     }
 
     // gets drink ID given food object
