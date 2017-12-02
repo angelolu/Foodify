@@ -12,52 +12,56 @@ import java.util.Iterator;
  */
 public final class DrinkPairer {
     static final String FOOD_JSON_FILE = "food.json";
-    static final String DRINK_JSON_FILE = "drink.json";
+    static final String DRINK_JSON_FILE = "drinks.json";
     static final String PAIRING_NAME = "Pairings";
-    static final Beverage EMPTY_BEVERAGE = new Beverage();
 
-    private final JSONObject foodStuff;
-    private final JSONObject drinkStuff;
+    private final JSONArray foodStuff;
+    private final JSONArray drinkStuff;
 
     // constructor for drinkPairer
     public DrinkPairer(String foodJSONFile, String drinkJSONFile) throws NullPointerException{
+        JSONArray tempFoodStuff;
+        JSONArray tempDrinkStuff;
+
         try{
-            this.foodStuff = new JSONObject(foodJSONFile);
-            this.drinkStuff = new JSONObject(drinkJSONFile);
+            tempFoodStuff = new JSONArray(foodJSONFile);
+            tempDrinkStuff = new JSONArray(drinkJSONFile);
         }
         catch (JSONException e) {
             System.err.println(e.getStackTrace());
             throw new NullPointerException("Something failed while reading JSON.");
         }
 
+        this.foodStuff = tempFoodStuff;
+        this.drinkStuff = tempDrinkStuff;
     }
 
     // gets drink info for a given food name
-    public Beverage [] getDrink(String foodName){
-        String [] drinkIDs = drinkIDGivenFood(foodName);
-        Beverage [] drinkInfos = drinkInfoGivenDrinkID(drinkIDs);
+    public Beverage getDrink(String foodName){
+        String drinkID = drinkIDGivenFood(foodName);
+        Beverage drinkInfo = drinkInfoGivenDrinkID(drinkID);
 
-        return drinkInfos;
+        return drinkInfo;
     }
 
-    // gets drink IDs given food object
-    private String [] drinkIDGivenFood(String foodName){
+    // gets drink ID given food object
+    private String drinkIDGivenFood(String foodName){
         try {
-            JSONObject food = foodStuff.getJSONObject(foodName);
-            JSONArray drinkPairings = food.getJSONArray(PAIRING_NAME);
+            JSONObject drinkPairing;
 
-            String[] drinkPairs = new String[drinkPairings.length()];
-            for (int i = 0; i < drinkPairs.length; i++) {
-                drinkPairs[i] = (String) drinkPairings.get(i);
+            // iterates over the array of JSOn objects because someone didn't
+            // consider using multiple attributes
+            for (int i = 0; i < foodStuff.length(); i++) {
+                if( foodName.equals(foodStuff.getJSONObject(i).get("food")) ) {
+                    drinkPairing = foodStuff.getJSONObject(i);
+                    return (String) drinkPairing.get("pairing");
+                }
             }
-
-            return drinkPairs;
         }
         catch (JSONException e){
-            System.err.println(e.getStackTrace());
-            return new String [0];
+            System.err.println(e.getStackTrace().toString());
         }
-
+        return null;
     }
 
     // for multiple drink ID
@@ -71,20 +75,25 @@ public final class DrinkPairer {
         return beverages;
     }
 
-    /* for one drink ID */
-    private Beverage drinkInfoGivenDrinkID(String drinkID){
+    /* for one drink name */
+    private Beverage drinkInfoGivenDrinkID(String drinkName){
         try {
-            JSONObject drink = drinkStuff.getJSONObject(drinkID);
-            String drinkName = (String) drink.get("name");
-            String image = (String) drink.get("URL");
+            String drinkInfo;
 
-            return new Beverage(drinkName, image);
+            // iterates over the array of JSOn objects because someone didn't
+            // consider using multiple attributes
+            for (int i = 0; i < drinkStuff.length(); i++) {
+                if( drinkName.equals(foodStuff.getJSONObject(i).get("drink")) ) {
+                    drinkInfo = (String) foodStuff.getJSONObject(i).get("drinklink");
+                    return new Beverage(drinkName, drinkInfo);
+                }
+            }
         }
         catch (JSONException e){
             System.err.println(e.getStackTrace());
-            return EMPTY_BEVERAGE;
         }
 
+        return null;
     }
 
     /**
@@ -94,32 +103,26 @@ public final class DrinkPairer {
      */
     public Beverage drinkInfoGivenDrinkName(String drinkName){
         try {
-            Iterator<?> keys = drinkStuff.keys();
-            Object drink;
             JSONObject jsonDrink;
+            Object drink;
 
             // iterates over all the drinks
-            while( keys.hasNext() ) {
-                String key = (String)keys.next();
-                if ( (drink=drinkStuff.get(key)) instanceof JSONObject ) {
+            for(int i=0; i<drinkStuff.length(); i++) {
+                if ((drink = drinkStuff.getJSONObject(i)) instanceof JSONObject) {
                     jsonDrink = (JSONObject) drink;
                     String otherDrinkName = (String) jsonDrink.get("name");
 
-                    // returns the drink with the given name and image
-                    // if we find it
-                    if(drinkName.equals(otherDrinkName)){
+                    // returns the drink with the given name and image if we find it
+                    if (drinkName.equals(otherDrinkName)) {
                         return new Beverage(drinkName, (String) jsonDrink.get("URL"));
                     }
                 }
             }
-
-            // returns empty beverage otherwise
-            return EMPTY_BEVERAGE;
         }
         catch (JSONException e){
-            System.err.println(e.getStackTrace());
-            return EMPTY_BEVERAGE;
+            System.err.println(e.getStackTrace().toString());
         }
-
+        // returns null otherwise
+        return null;
     }
 }
