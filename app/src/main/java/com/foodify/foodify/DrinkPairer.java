@@ -13,6 +13,7 @@ public final class DrinkPairer {
     static final String FOOD_JSON_FILE = "food.json";
     static final String DRINK_JSON_FILE = "drink.json";
     static final String PAIRING_NAME = "Pairings";
+    static final Beverage EMPTY_BEVERAGE = new Beverage();
 
     private final JSONObject foodStuff;
     private final JSONObject drinkStuff;
@@ -53,7 +54,7 @@ public final class DrinkPairer {
         }
         catch (JSONException e){
             System.err.println(e.getStackTrace());
-            return null;
+            return new String [0];
         }
 
     }
@@ -80,7 +81,7 @@ public final class DrinkPairer {
         }
         catch (JSONException e){
             System.err.println(e.getStackTrace());
-            return null;
+            return EMPTY_BEVERAGE;
         }
 
     }

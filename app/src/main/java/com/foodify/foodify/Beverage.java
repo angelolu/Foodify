@@ -10,6 +10,12 @@ class Beverage {
     private String drinkName;
     private String image;
 
+    // returns null beverage
+    Beverage(){
+        this.drinkName = "";
+        this.image = "";
+    }
+
     Beverage(String drinkName, String image){
         this.drinkName = drinkName;
         this.image = image;
