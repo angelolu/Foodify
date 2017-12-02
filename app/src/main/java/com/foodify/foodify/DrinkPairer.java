@@ -14,17 +14,24 @@ public final class DrinkPairer {
     static final String DRINK_JSON_FILE = "drink.json";
     static final String PAIRING_NAME = "Pairings";
 
-    private final String foodJSONFile;
-    private final String drinkJSONFile;
+    private final JSONObject foodStuff;
+    private final JSONObject drinkStuff;
 
     // constructor for drinkPairer
-    public DrinkPairer(String foodJSONFile, String drinkJSONFile){
-        this.foodJSONFile=foodJSONFile;
-        this.drinkJSONFile=drinkJSONFile;
+    public DrinkPairer(String foodJSONFile, String drinkJSONFile) throws NullPointerException{
+        try{
+            this.foodStuff = new JSONObject(foodJSONFile);
+            this.drinkStuff = new JSONObject(drinkJSONFile);
+        }
+        catch (JSONException e) {
+            System.err.println(e.getStackTrace());
+            throw new NullPointerException("Something failed while reading JSON.");
+        }
+
     }
 
     // gets drink info for a given food name
-    public Beverage [] getDrink(String foodName) throws JSONException {
+    public Beverage [] getDrink(String foodName){
         String [] drinkIDs = drinkIDGivenFood(foodName);
         Beverage [] drinkInfos = drinkInfoGivenDrinkID(drinkIDs);
 
@@ -32,24 +39,30 @@ public final class DrinkPairer {
     }
 
     // gets drink IDs given food object
-    private String [] drinkIDGivenFood(String foodName) throws JSONException {
-        JSONObject foodStuff = new JSONObject(this.foodJSONFile);
-        JSONObject food = foodStuff.getJSONObject(foodName);
-        JSONArray drinkPairings = food.getJSONArray(PAIRING_NAME);
+    private String [] drinkIDGivenFood(String foodName){
+        try {
+            JSONObject food = foodStuff.getJSONObject(foodName);
+            JSONArray drinkPairings = food.getJSONArray(PAIRING_NAME);
 
-        String [] drinkPairs = new String [drinkPairings.length()];
-        for (int i = 0; i < drinkPairs.length; i++) {
-            drinkPairs[i] = (String)drinkPairings.get(i);
+            String[] drinkPairs = new String[drinkPairings.length()];
+            for (int i = 0; i < drinkPairs.length; i++) {
+                drinkPairs[i] = (String) drinkPairings.get(i);
+            }
+
+            return drinkPairs;
+        }
+        catch (JSONException e){
+            System.err.println(e.getStackTrace());
+            return null;
         }
 
-        return drinkPairs;
     }
 
     // for multiple drink ID
-    private Beverage [] drinkInfoGivenDrinkID(String [] drinkID) throws JSONException {
-        Beverage [] beverages = new Beverage [drinkID.length];
+    private Beverage [] drinkInfoGivenDrinkID(String [] drinkID) {
+        Beverage[] beverages = new Beverage[drinkID.length];
 
-        for(int i = 0; i < drinkID.length; i++) {
+        for (int i = 0; i < drinkID.length; i++) {
             beverages[i] = drinkInfoGivenDrinkID(drinkID[i]);
         }
 
@@ -57,12 +70,18 @@ public final class DrinkPairer {
     }
 
     /* for one drink ID */
-    private Beverage drinkInfoGivenDrinkID(String drinkID) throws JSONException {
-        JSONObject drinkStuff = new JSONObject(this.drinkJSONFile);
-        JSONObject drink = drinkStuff.getJSONObject(drinkID);
-        String drinkName = (String) drink.get("name");
-        String image = (String) drink.get("URL");
+    private Beverage drinkInfoGivenDrinkID(String drinkID){
+        try {
+            JSONObject drink = drinkStuff.getJSONObject(drinkID);
+            String drinkName = (String) drink.get("name");
+            String image = (String) drink.get("URL");
 
-        return new Beverage(drinkName, image);
+            return new Beverage(drinkName, image);
+        }
+        catch (JSONException e){
+            System.err.println(e.getStackTrace());
+            return null;
+        }
+
     }
 }

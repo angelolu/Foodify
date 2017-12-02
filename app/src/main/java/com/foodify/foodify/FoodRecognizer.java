@@ -16,7 +16,6 @@ public class FoodRecognizer {
 
     private ClarifaiClient client;
 
-
     public FoodRecognizer() {
         this.client = new ClarifaiBuilder("c9d4e612a5a2455fbfe92e201335d352").buildSync();
     }
