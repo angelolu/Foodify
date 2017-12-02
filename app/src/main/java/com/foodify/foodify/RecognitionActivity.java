@@ -136,7 +136,7 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         Collections.sort(drinks, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
         List<Beverage> result = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            //result.add(pairer.getBeverage(drinks.get(i).getKey()));
+            result.add(pairer.drinkInfoGivenDrinkName(drinks.get(i).getKey()));
         }
     }
 }
