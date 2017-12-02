@@ -3,227 +3,227 @@
     "food":"apple",
     "description":"Apple Juice",
     "pairing": "applejuice"
-  }
+  },
   {
     "food":"bacon",
     "description":"Bacon",
     "pairing": "budweiser"
-  }
+  },
   {
     "food":"bagel",
     "description":"Bagel",
     "pairing": "milk"
-  }
+  },
   {
     "food":"bread",
     "description":"Bread",
     "pairing": "redwine"
-  }
+  },
   {
     "food":"burger",
     "description":"Hamburger",
     "pairing": "guinness"
-  }
+  },
   {
     "food":"burrito",
     "description":"burrito",
     "pairing": "corona"
-  }
+  },
   {
     "food":"celery",
     "description":"Celery",
     "pairing": "gin"
-  }
+  },
   {
     "food":"chocolate",
     "description":"Chocolate",
     "pairing": "brandy"
-  }
+  },
   {
     "food":"coke",
     "description":"Coke",
     "pairing": "rum"
-  }
+  },
   {
     "food":"corn",
     "description":"corn",
     "pairing": "budweiser"
-  }
+  },
   {
     "food":"cheese",
     "description":"cheese",
     "pairing": "redwine"
-  }
+  },
   {
     "food":"chicken",
     "description":"Chicken",
     "pairing": "heineken"
-  }
+  },
   {
     "food":"cod",
     "description":"Cod",
     "pairing": "whiskey"
-  }
+  },
   {
     "food":"cookie",
     "description":"Cookie",
     "pairing": "milk"
-  }
+  },
   {
     "food":"donut",
     "description":"Donut",
     "pairing": "coffee"
-  }
+  },
   {
     "food":"dumpling",
     "description":"Dumplings",
     "pairing": "budlight"
-  }
+  },
   {
     "food":"duck",
     "description":"Duck",
     "pairing": "whiskey"
-  }
+  },
   {
     "food":"fajita",
     "description":"Fajitas",
     "pairing": "corona"
-  }
+  },
   {
     "food":"french fries",
     "description":"fries",
     "pairing": "soda"
-  }
+  },
   {
     "food":"french toast",
     "description":"French Toast",
     "pairing": "milk"
-  }
+  },
   {
     "food":"hotdog",
     "description":"Hot Dog",
     "pairing": "soda"
-  }
+  },
   {
     "food":"lasagna",
     "description":"Sphagetti",
     "pairing": "redwine"
-  }
+  },
   {
     "food":"lemon",
     "description":"Lemon",
     "pairing": "tequila"
-  }
+  },
   {
     "food":"lobster",
     "description":"Lobster",
     "pairing": "chardonnay"
-  }
+  },
   {
     "food":"mackerel",
     "description":"Mackerel",
     "pairing": "whiskey"
-  }
+  },
   {
     "food":"muffiin",
     "description":"Muffin",
     "pairing": "coffee"
-  }
+  },
   {
     "food":"mussels",
     "description":"Mussels",
     "pairing": "chardonnay"
-  }
+  },
   {
     "food":"oyster",
     "description":"Oyster",
     "pairing": "whiskey"
-  }
+  },
   {
     "food":"pancake",
     "description":"Pancake",
     "pairing": "maplesyrup"
-  }
+  },
   {
     "food":"pasta",
     "description":"Pasta",
     "pairing": "chardonnay"
-  }
+  },
   {
     "food":"pie",
     "description":"Pie",
     "pairing": "coffee"
-  }
+  },
   {
     "food":"popcorn",
     "description":"Popcorn",
     "pairing": "soda"
-  }
+  },
   {
     "food":"pork",
     "description":"pork",
     "pairing": "heineken"
-  }
+  },
   {
     "food":"poutine",
     "description":"Poutine",
     "pairing": "corona"
-  }
+  },
   {
     "food":"taco",
     "description":"Taco",
     "pairing": "corona"
-  }
+  },
   {
     "food":"pizza",
     "description":"Pizza",
     "pairing": "heineken"
-  }
+  },
   {
     "food":"poke",
     "description":"Poke",
     "pairing": "sake"
-  }
+  },
   {
     "food":"salmon",
     "description":"Salmon",
     "pairing": "chardonnay"
-  }
+  },
   {
     "food":"sausage",
     "description":"Sausage",
     "pairing": "heineken"
-  }
+  },
   {
     "food":"scallop",
     "description":"Scallop",
     "pairing": "whiskey"
-  }
+  },
   {
     "food":"sphagetti",
     "description":"Sphagetti",
     "pairing": "redwine"
-  }
+  },
   {
     "food":"steak",
     "description":"Steak",
     "pairing": "corona"
-  }
+  },
   {
     "food":"soup",
     "description":"Soup",
     "pairing": "Water"
-  }
+  },
   {
     "food":"sushi",
     "description":"Sushi",
     "pairing": "sake"
-  }
+  },
   {
     "food":"toast",
     "description":"Toast",
     "pairing": "milk"
-  }
+  },
   {
     "food": "waffle",
     "description": "Waffle",
