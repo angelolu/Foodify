@@ -1,7 +1,6 @@
 package com.foodify.foodify;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +15,7 @@ import java.io.InputStreamReader;
  *
  * Used to get drink choice given a food item.
  */
-public final class DrinkPairer {
+final class DrinkPairer {
     static final String FOOD_JSON_FILE = "food.json";
     static final String DRINK_JSON_FILE = "drinks.json";
 
@@ -24,7 +23,7 @@ public final class DrinkPairer {
     private final JSONArray drinkStuff;
 
     // constructor for drinkPairer
-    public DrinkPairer(String foodJSONFile, String drinkJSONFile, Context c) throws NullPointerException {
+    DrinkPairer(String foodJSONFile, String drinkJSONFile, Context c) throws NullPointerException {
 
         // Uses JSON file name passed to us if not empty/null
         // else uses default JSON file names
@@ -35,8 +34,8 @@ public final class DrinkPairer {
 
 
         // Read the JSON Files
-        String foodString = "";
-        String drinkString = "";
+        StringBuilder foodString = new StringBuilder();
+        StringBuilder drinkString = new StringBuilder();
         BufferedReader reader = null;
         try {
             // opens a reader to read the food JSON file
@@ -44,15 +43,14 @@ public final class DrinkPairer {
 
             String mLine;
             while ((mLine = reader.readLine()) != null) {
-                foodString = foodString + mLine;
+                foodString = foodString.append(mLine);
             }
-            Log.e(foodFile, foodString);
+
             reader = new BufferedReader(new InputStreamReader(c.getAssets().open(drinkJSONFile)));
 
             while ((mLine = reader.readLine()) != null) {
-                drinkString = drinkString + mLine;
+                drinkString = drinkString.append(mLine);
             }
-            Log.e(drinkFile, drinkString);
 
         } catch (IOException e) {
             //log the exception
@@ -76,7 +74,6 @@ public final class DrinkPairer {
         }
         catch (JSONException e) {
             e.printStackTrace();
-            System.err.println(e.getStackTrace());
             throw new NullPointerException("Something failed while parsing JSON.");
         }
 
@@ -85,7 +82,7 @@ public final class DrinkPairer {
     }
 
     // gets drink info for a given food name
-    public Beverage [] getDrink(String foodName){
+    Beverage [] getDrink(String foodName){
         String drinkID = drinkIDGivenFood(foodName);
 
         // returns null if the food item does not exist
@@ -113,7 +110,7 @@ public final class DrinkPairer {
             }
         }
         catch (JSONException e){
-            System.err.println(e.getStackTrace().toString());
+            e.printStackTrace();
         }
         // returns null otherwise
         return null;
@@ -143,7 +140,7 @@ public final class DrinkPairer {
             }
         }
         catch (JSONException e){
-            System.err.println(e.getStackTrace());
+            e.printStackTrace();
         }
         // returns null otherwise
         return null;
@@ -154,7 +151,7 @@ public final class DrinkPairer {
      * Iterates over all objects in JSON, because I do
      * not know of a more effective method of doing this.
      */
-    public Beverage drinkInfoGivenDrinkName(String drinkName){
+    Beverage drinkInfoGivenDrinkName(String drinkName){
         try {
             JSONObject jsonDrink;
             Object drink;
@@ -173,7 +170,7 @@ public final class DrinkPairer {
             }
         }
         catch (JSONException e){
-            System.err.println(e.getStackTrace().toString());
+            e.printStackTrace();
         }
         // returns beverage with no image otherwise
         return new Beverage(drinkName, "");

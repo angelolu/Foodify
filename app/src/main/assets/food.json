@@ -1,7 +1,7 @@
 [
   {
     "food":"apple",
-    "description":"Apple Juice",
+    "description":"Apple",
     "pairing": "applejuice"
   },
   {
@@ -85,6 +85,11 @@
     "pairing": "whiskey"
   },
   {
+    "food":"egg",
+    "description":"Egg",
+    "pairing": "milk"
+  },
+  {
     "food":"fajita",
     "description":"Fajitas",
     "pairing": "corona"
@@ -102,6 +107,11 @@
   {
     "food":"hotdog",
     "description":"Hot Dog",
+    "pairing": "soda"
+  },
+  {
+    "food":"ice cream",
+    "description":"Ice Cream",
     "pairing": "soda"
   },
   {
@@ -185,6 +195,11 @@
     "pairing": "sake"
   },
   {
+    "food":"orange",
+    "description":"Orange",
+    "pairing": "orangejuice"
+  },
+  {
     "food":"salmon",
     "description":"Salmon",
     "pairing": "chardonnay"
@@ -223,6 +238,11 @@
     "food":"toast",
     "description":"Toast",
     "pairing": "milk"
+  },
+  {
+    "food":"tomato",
+    "description":"Tomato",
+    "pairing": "redwine"
   },
   {
     "food":"waffle",
