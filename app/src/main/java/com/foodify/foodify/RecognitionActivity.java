@@ -1,6 +1,5 @@
 package com.foodify.foodify;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,14 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +18,7 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
 
     Fragment myResultFragment;
     ResultToFragment resultToFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,15 +139,44 @@ public class RecognitionActivity extends AppCompatActivity implements CameraFrag
         List<Map.Entry<String, Float>> drinks = new ArrayList<>(counter.entrySet());
         Collections.sort(drinks, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
         List<Beverage> result = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            result.add(pairer.drinkInfoGivenDrinkName(drinks.get(i).getKey()));
+        Log.e("Recommendation", drinks.size() + "");
+
+        String primaryPair = "";
+        String primaryPairURL = "";
+        String secondPair = "";
+        int numRecommendations = 3;
+        if (drinks.size() < 3) numRecommendations = drinks.size();
+        if (numRecommendations > 0) {
+            for (int i = 0; i < numRecommendations; i++) {
+                result.add(pairer.drinkInfoGivenDrinkName(drinks.get(i).getKey()));
+            }
+            primaryPair = result.get(0).getName();
+            primaryPairURL = result.get(0).getImageURL();
+            for (int i = 1; i < result.size(); i++) {
+                secondPair = secondPair + pairer.drinkInfoGivenDrinkName(drinks.get(i).getKey()).getName() + "\n";
+            }
+            final String pp = primaryPair;
+            final String ppurl = primaryPairURL;
+            final String psp = secondPair;
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    resultToFragment.sendPairing(pp, ppurl, psp);
+                }
+            });
+        } else {
+            Log.e("Recommendation", "No recommendation");
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    resultToFragment.sendPairing("", "", "");
+                }
+            });
         }
     }
 
     public interface ResultToFragment {
         void sendRecognition(String data);
 
-        void sendPairing(String data);
+        void sendPairing(String primary, String url, String data);
     }
 
 }

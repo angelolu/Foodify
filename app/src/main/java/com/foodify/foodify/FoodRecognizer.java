@@ -27,6 +27,9 @@ public class FoodRecognizer {
                 .executeSync()
                 .get()) {
             for (Concept result : output.data()) {
+                if (result.value() < 0.7) {
+                    continue;
+                }
                 resultList.add(new WeightedIngredient(result.name(), result.value()));
             }
         }

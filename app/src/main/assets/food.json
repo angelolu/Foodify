@@ -225,19 +225,8 @@
     "pairing": "milk"
   },
   {
-    "food": "waffle",
-    "description": "Waffle",
+    "food":"waffle",
+    "description":"Waffle",
     "pairing": "coffee"
-  }
-  {
-    "food": "chips",
-    "description": "Waffle",
-    "pairing": "soda"
-  }
-  {
-  "food": "citrus",
-  "description": "Citrus fruit",
-  "pairing": "water"
-  }
   }
 ]
