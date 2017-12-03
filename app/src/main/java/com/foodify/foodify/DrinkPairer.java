@@ -1,6 +1,7 @@
 package com.foodify.foodify;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,8 +70,8 @@ final class DrinkPairer {
         JSONArray tempDrinkStuff;
 
         try{
-            tempFoodStuff = new JSONArray(foodString);
-            tempDrinkStuff = new JSONArray(drinkString);
+            tempFoodStuff = new JSONArray(foodString.toString());
+            tempDrinkStuff = new JSONArray(drinkString.toString());
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -84,7 +85,6 @@ final class DrinkPairer {
     // gets drink info for a given food name
     Beverage [] getDrink(String foodName){
         String drinkID = drinkIDGivenFood(foodName);
-
         // returns null if the food item does not exist
         if (drinkID == null) {
             return new Beverage [] {null};
@@ -160,11 +160,13 @@ final class DrinkPairer {
             for(int i=0; i<drinkStuff.length(); i++) {
                 if ((drink = drinkStuff.getJSONObject(i)) instanceof JSONObject) {
                     jsonDrink = (JSONObject) drink;
-                    String otherDrinkName = (String) jsonDrink.get("name");
+                    String otherDrinkName = (String) jsonDrink.get("drink");
 
                     // returns the drink with the given name and image if we find it
-                    if (drinkName.equals(otherDrinkName)) {
-                        return new Beverage(drinkName, (String) jsonDrink.get("URL"));
+                    Log.e("Comparing", drinkName.toLowerCase().replace(" ", "") + " to " + otherDrinkName);
+                    if (drinkName.toLowerCase().replace(" ", "").equals(otherDrinkName)) {
+                        Log.e("LINK", jsonDrink.get("drinklink").toString());
+                        return new Beverage(drinkName, (String) jsonDrink.get("drinklink"));
                     }
                 }
             }
